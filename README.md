@@ -11,16 +11,13 @@ RGB,
 [many color names][5],
 [multi-color names (i.e. "rgb" is the same as input "red,blue,green")][6] 
 
+Due to the way multi-part arrays are parse (explained on 
 
 ###Usage Examples
 http://jhawins.loomhost.com/colors.php?color=red,ffe680,fff,rgb,canada
 
 http://jhawins.loomhost.com/colors.php?gradient=roygbiv,purple
     
-
-
-
-
 
 
 

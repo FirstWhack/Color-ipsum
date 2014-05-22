@@ -11,7 +11,7 @@ if (isset($colors)) { //added these to avoid sending a blank page with image hea
     $type = 'gradient';
 }
 
-$colornames = array(
+$colornames = array( // These are handled by `getHexByName()`
 	"aliceblue" => "F0F8FF",
 	"antiquewhite" => "FAEBD7",
 	"aqua" => "00FFFF",
@@ -159,7 +159,12 @@ $colornames = array(
 	"whitesmoke" => "F5F5F5",
 	"yellow" => "FFFF00",
 	"yellowgreen" => "9ACD32",
-	//multi-colors below here
+	// multi-colors below here
+	// If one of these is selected this will return an array
+	// That will be parsed one piece at a time *again* by parseColors
+	// For this reason these arrays can be fairly complex
+	// Multiple multi-part arrays can be chained into one
+	"incept" => "rgb,roygbiv,canada", // This is our inception array containing 3 multi-part colors 
 	"roygbiv" => "red,orange,yellow,green,blue,indigo,violet",
 	"rgb"	=> "red,green,blue",
 	"canada" => "red,white,red"
