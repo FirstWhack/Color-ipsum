@@ -16,9 +16,9 @@ Usage
 
 
 
-[1][https://github.com/Jhawins/Colors/blob/master/colors.php#L265]
-[2][https://github.com/Jhawins/Colors/blob/master/colors.php#L237]
-[3][https://github.com/Jhawins/Colors/blob/master/colors.php#L175]
-[4][https://github.com/Jhawins/Colors/blob/master/colors.php#L171]
-[5][https://github.com/Jhawins/Colors/blob/master/colors.php#L14]
-[6][https://github.com/Jhawins/Colors/blob/master/colors.php#L162]
+[1]: colors.php#L265
+[2]: colors.php#L237
+[3]: colors.php#L175
+[4]: colors.php#L171
+[5]: colors.php#L14
+[6]: colors.php#L162
