@@ -9,11 +9,12 @@ RGB,
 [Hexadecimal][3],
 [Shorthand hexadecimal][4],
 [many color names][5],
-[multi-color names (i.e. "rgb" is the same as input "red,blue,green"][6] 
+[multi-color names (i.e. "rgb" is the same as input "red,blue,green")][6] 
 
 
 ###Usage Examples
 http://jhawins.loomhost.com/colors.php?color=red,ffe680,fff,rgb,canada
+
 http://jhawins.loomhost.com/colors.php?gradient=roygbiv,purple
     
 
