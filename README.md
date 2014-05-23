@@ -24,9 +24,9 @@ http://jhawins.tk/colors.php?gradient=roygbiv,purple
 
 
 
-[1]: colors.php#L265
-[2]: colors.php#L237
-[3]: colors.php#L175
-[4]: colors.php#L171
-[5]: colors.php#L14
-[6]: colors.php#L162
+[1]: colors.php#L270-L281
+[2]: colors.php#L242-L262
+[3]: colors.php#L180-L183
+[4]: colors.php#L176-L179
+[5]: colors.php#L14-L171
+[6]: colors.php#L162-L166
