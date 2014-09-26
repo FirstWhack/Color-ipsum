@@ -23,7 +23,9 @@ Due to the way multi-part arrays are parsed (explained on [colors.php line 162-1
 
 ##Usage Examples
 http://jhawins.tk/colors.php?ipsum&w=400&h=100
+
 http://jhawins.tk/colors.php?gradient=roygbiv,purple
+
 http://jhawins.tk/colors.php?color=red,ffe680,fff,rgb,canada
 
 
