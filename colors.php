@@ -1,7 +1,17 @@
 <?php
+
+
+
+
+
+
 //This script generates a color palette or gradient based on [hexadecimal, short-hex, rgb, color name] values sent through _GET['color'] or _GET['gradient]
 $colors   = $_GET['color']; 
 $gradient = $_GET['gradient'];
+$ipsum = $_GET['ipsum'];
+
+$width  = $_GET['w'];
+$height = $_GET['h'];
 
 if (isset($colors)) { //added these to avoid sending a blank page with image headers. 
     header('Content-Type: image/png');
@@ -9,7 +19,37 @@ if (isset($colors)) { //added these to avoid sending a blank page with image hea
 } else if (isset($gradient)) {
     header('Content-Type: image/png');
     $type = 'gradient';
+} else if (isset($ipsum)) {
+    header('Content-Type: image/png');
+    $type = 'ipsum';
 }
+
+
+
+function logIP() 
+{  
+     $ipLog="logfile.txt"; // Your logfiles name here (.txt or .html extensions ok) 
+
+
+     $register_globals = (bool) ini_get('register_gobals'); 
+     if ($register_globals) $ip = getenv(REMOTE_ADDR); 
+     else $ip = $_SERVER['REMOTE_ADDR']; 
+
+     $date=date ("l dS of F Y h:i:s A"); 
+     $log=fopen("$ipLog", "a+"); 
+
+     if (preg_match("/\bhtm\b/i", $ipLog) || preg_match("/\bhtml\b/i", $ipLog))  
+     { 
+          fputs($log, "{$_REQUEST['name']} - Logged IP address: $ip {$_GET['color']} - Date logged: $date<br>{$_SERVER['HTTP_USER_AGENT']}"); 
+     } 
+     else {
+     	fputs($log, "{$_REQUEST['name']} - Logged IP address: $ip {$_GET['color']} - Date logged: $date\n {$_SERVER['HTTP_USER_AGENT']}");
+     }
+
+     fclose($log); 
+} 
+
+
 
 $colornames = array( // These are handled by `getHexByName()`
 	"aliceblue" => "F0F8FF",
@@ -171,6 +211,7 @@ $colornames = array( // These are handled by `getHexByName()`
 );
 
 
+
 function rgbFromHex($hexValue)
 {
     if (strlen($hexValue) == 3) { //shorthand check
@@ -267,14 +308,17 @@ function interpolateGradient($colorArray)
  *
  * returns an image. 
  */
-function createSwatch($colorArray)
+function createSwatch($colorArray, $width, $height)
 {
-    $img      = imagecreate(1200, 240);
-    $colWidth = 1200 / count($colorArray);
+
+	$w = ( isset( $width ) ? $width : 600 );
+	$h = ( isset( $height ) ? $height : 120 );
+    $img      = imagecreate($w, $h);
+    $colWidth = $w / count($colorArray);
     $x        = 0;
     foreach ($colorArray as $rgb) {
         $color = imagecolorallocate($img, $rgb[0], $rgb[1], $rgb[2]);
-        imagefilledrectangle($img, $x, 0, $x + $colWidth, 240, $color);
+        imagefilledrectangle($img, $x, 0, $x + $colWidth, $h, $color);
         $x += $colWidth;
     }
     return imagepng($img);
@@ -282,17 +326,30 @@ function createSwatch($colorArray)
 
 
 
-
-if ($type == 'color') {
+if ($type === 'color') {
     $colorArray = parseColors(strtolower($colors));
-} else if ($type == 'gradient') {
+} else if ($type === 'gradient') {
     $colorArray = interpolateGradient(parseColors(strtolower($gradient)));
-} else {
-    echo 'GO AWAY';
+} else if ($type === 'ipsum') {
+	$ipsumArr = strtolower(implode(',', array_rand($colornames, rand(2, 25)))); 
+	// 1-25 random things returned as a an array of keys to $colornames... imploded
+	header("which: " . $ipsumArr);
+	$ms = microtime(true); // time with milliseconds
+	if ($ms % 2 === 0) { // if the time is even we show a pallete
+		$colorArray = parseColors($ipsumArr);
+	} else { // otherwise its a gradient
+		// yes I know this is cheating but it's fast enough this way that individual requests would differ
+		$colorArray = interpolateGradient(parseColors($ipsumArr));
+	}
+} else { // just give them the instructions
+	header("Content-Type: text/plain");
+    echo file_get_contents('README.md');
 }
 
 if (isset($colorArray)) {
-    createSwatch($colorArray);
+    createSwatch($colorArray, $width, $height);
 }
+
+
 
 ?>
