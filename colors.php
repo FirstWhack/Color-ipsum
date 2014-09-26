@@ -1,10 +1,5 @@
 <?php
 
-
-
-
-
-
 //This script generates a color palette or gradient based on [hexadecimal, short-hex, rgb, color name] values sent through _GET['color'] or _GET['gradient]
 $colors   = $_GET['color']; 
 $gradient = $_GET['gradient'];
@@ -331,7 +326,7 @@ if ($type === 'color') {
 } else if ($type === 'gradient') {
     $colorArray = interpolateGradient(parseColors(strtolower($gradient)));
 } else if ($type === 'ipsum') {
-	$ipsumArr = strtolower(implode(',', array_rand($colornames, rand(2, 25)))); 
+	$ipsumArr = strtolower(implode(',', array_rand($colornames, rand(2, count($colornames))))); 
 	// 1-25 random things returned as a an array of keys to $colornames... imploded
 	header("which: " . $ipsumArr);
 	$ms = microtime(true); // time with milliseconds
