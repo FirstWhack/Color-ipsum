@@ -9,40 +9,16 @@ $width  = $_GET['w'];
 $height = $_GET['h'];
 
 if (isset($colors)) { //added these to avoid sending a blank page with image headers. 
-    header('Content-Type: image/png');
-    $type = 'color';
+	header('Content-Type: image/png');
+	$type = 'color';
 } else if (isset($gradient)) {
-    header('Content-Type: image/png');
-    $type = 'gradient';
+	header('Content-Type: image/png');
+	$type = 'gradient';
 } else if (isset($ipsum)) {
-    header('Content-Type: image/png');
-    $type = 'ipsum';
+	header('Content-Type: image/png');
+	$type = 'ipsum';
 }
 
-
-
-function logIP() 
-{  
-     $ipLog="logfile.txt"; // Your logfiles name here (.txt or .html extensions ok) 
-
-
-     $register_globals = (bool) ini_get('register_gobals'); 
-     if ($register_globals) $ip = getenv(REMOTE_ADDR); 
-     else $ip = $_SERVER['REMOTE_ADDR']; 
-
-     $date=date ("l dS of F Y h:i:s A"); 
-     $log=fopen("$ipLog", "a+"); 
-
-     if (preg_match("/\bhtm\b/i", $ipLog) || preg_match("/\bhtml\b/i", $ipLog))  
-     { 
-          fputs($log, "{$_REQUEST['name']} - Logged IP address: $ip {$_GET['color']} - Date logged: $date<br>{$_SERVER['HTTP_USER_AGENT']}"); 
-     } 
-     else {
-     	fputs($log, "{$_REQUEST['name']} - Logged IP address: $ip {$_GET['color']} - Date logged: $date\n {$_SERVER['HTTP_USER_AGENT']}");
-     }
-
-     fclose($log); 
-} 
 
 
 
@@ -209,36 +185,36 @@ $colornames = array( // These are handled by `getHexByName()`
 
 function rgbFromHex($hexValue)
 {
-    if (strlen($hexValue) == 3) { //shorthand check
-        $r = hexdec(str_repeat($hexValue[0], 2));
-        $g = hexdec(str_repeat($hexValue[1], 2));
-        $b = hexdec(str_repeat($hexValue[2], 2));
-    } else if (strlen($hexValue) == 6) { //standard hex color
-        $r = hexdec(substr($hexValue, 0, 2));
-        $g = hexdec(substr($hexValue, 2, 2));
-        $b = hexdec(substr($hexValue, 4, 2));
-    } else {
-        $r = 0;
-        $g = 0;
-        $b = 0;
-    }
-    
-    $rgb = array(
-        $r,
-        $g,
-        $b
-    );
-    return $rgb;
+	if (strlen($hexValue) == 3) { //shorthand check
+		$r = hexdec(str_repeat($hexValue[0], 2));
+		$g = hexdec(str_repeat($hexValue[1], 2));
+		$b = hexdec(str_repeat($hexValue[2], 2));
+	} else if (strlen($hexValue) == 6) { //standard hex color
+		$r = hexdec(substr($hexValue, 0, 2));
+		$g = hexdec(substr($hexValue, 2, 2));
+		$b = hexdec(substr($hexValue, 4, 2));
+	} else {
+		$r = 0;
+		$g = 0;
+		$b = 0;
+	}
+	
+	$rgb = array(
+		$r,
+		$g,
+		$b
+	);
+	return $rgb;
 }
 
 function getHexByName($name)
 {
-    global $colornames;
-    if (isset($colornames[$name])) {
-        return $colornames[$name];
-    } else {
-        return null;
-    }
+	global $colornames;
+	if (isset($colornames[$name])) {
+		return $colornames[$name];
+	} else {
+		return null;
+	}
 }
 
 /*
@@ -248,26 +224,26 @@ function getHexByName($name)
  */
 function parseColors($input)
 {
-    $colorArray = array();
-    $parts      = explode(",", $input);
-    
-    foreach ($parts as $color) {
-        $byName = getHexByName($color);
-        if (!isset($byName)) {
-            array_push($colorArray, rgbFromHex($color));
-        } else {
-            if (strpos($byName, ",") !== FALSE) {
-                // we're dealing with a multi-part name, eg: roygbiv
-                foreach (parseColors($byName) as $col) {
-                    array_push($colorArray, $col);
-                }
-            } else {
-                array_push($colorArray, rgbFromHex($byName));
-            }
-        }
-    }
-    
-    return $colorArray;
+	$colorArray = array();
+	$parts      = explode(",", $input);
+	
+	foreach ($parts as $color) {
+		$byName = getHexByName($color);
+		if (!isset($byName)) {
+			array_push($colorArray, rgbFromHex($color));
+		} else {
+			if (strpos($byName, ",") !== FALSE) {
+				// we're dealing with a multi-part name, eg: roygbiv
+				foreach (parseColors($byName) as $col) {
+					array_push($colorArray, $col);
+				}
+			} else {
+				array_push($colorArray, rgbFromHex($byName));
+			}
+		}
+	}
+	
+	return $colorArray;
 }
 
 /* 
@@ -277,25 +253,25 @@ function parseColors($input)
  */
 function interpolateGradient($colorArray)
 {
-    $steps        = 200;
-    $arrLen       = count($colorArray) - 1;
-    $stepsPerGrad = $steps / $arrLen;
-    $output       = array();
-    
-    for ($step = 0; $step < $steps; $step++) {
-        $index   = floor($step / $stepsPerGrad);
-        $percent = $step / $stepsPerGrad - $index;
-        $curr    = $colorArray[$index];
-        $next    = $colorArray[$index + 1];
-        
-        array_push($output, array(
-            $curr[0] + $percent * ($next[0] - $curr[0]),
-            $curr[1] + $percent * ($next[1] - $curr[1]),
-            $curr[2] + $percent * ($next[2] - $curr[2])
-        ));
-    }
-    
-    return $output;
+	$steps        = 200;
+	$arrLen       = count($colorArray) - 1;
+	$stepsPerGrad = $steps / $arrLen;
+	$output       = array();
+	
+	for ($step = 0; $step < $steps; $step++) {
+		$index   = floor($step / $stepsPerGrad);
+		$percent = $step / $stepsPerGrad - $index;
+		$curr    = $colorArray[$index];
+		$next    = $colorArray[$index + 1];
+		
+		array_push($output, array(
+			$curr[0] + $percent * ($next[0] - $curr[0]),
+			$curr[1] + $percent * ($next[1] - $curr[1]),
+			$curr[2] + $percent * ($next[2] - $curr[2])
+		));
+	}
+	
+	return $output;
 }
 
 /* 
@@ -308,23 +284,23 @@ function createSwatch($colorArray, $width, $height)
 
 	$w = ( isset( $width ) ? $width : 600 );
 	$h = ( isset( $height ) ? $height : 120 );
-    $img      = imagecreate($w, $h);
-    $colWidth = $w / count($colorArray);
-    $x        = 0;
-    foreach ($colorArray as $rgb) {
-        $color = imagecolorallocate($img, $rgb[0], $rgb[1], $rgb[2]);
-        imagefilledrectangle($img, $x, 0, $x + $colWidth, $h, $color);
-        $x += $colWidth;
-    }
-    return imagepng($img);
+	$img      = imagecreate($w, $h);
+	$colWidth = $w / count($colorArray);
+	$x        = 0;
+	foreach ($colorArray as $rgb) {
+		$color = imagecolorallocate($img, $rgb[0], $rgb[1], $rgb[2]);
+		imagefilledrectangle($img, $x, 0, $x + $colWidth, $h, $color);
+		$x += $colWidth;
+	}
+	return imagepng($img);
 }
 
 
 
 if ($type === 'color') {
-    $colorArray = parseColors(strtolower($colors));
+	$colorArray = parseColors(strtolower($colors));
 } else if ($type === 'gradient') {
-    $colorArray = interpolateGradient(parseColors(strtolower($gradient)));
+	$colorArray = interpolateGradient(parseColors(strtolower($gradient)));
 } else if ($type === 'ipsum') {
 	$ipsumArr = strtolower(implode(',', array_rand($colornames, rand(2, count($colornames))))); 
 	// 1-25 random things returned as a an array of keys to $colornames... imploded
@@ -338,11 +314,11 @@ if ($type === 'color') {
 	}
 } else { // just give them the instructions
 	header("Content-Type: text/plain");
-    echo file_get_contents('README.md');
+	echo file_get_contents('README.md');
 }
 
 if (isset($colorArray)) {
-    createSwatch($colorArray, $width, $height);
+	createSwatch($colorArray, $width, $height);
 }
 
 
