@@ -7,7 +7,7 @@ This script outputs a random color pallette or gradient (that decision is also *
 Example: http://jhawins.tk/colors.php?ipsum
 ######Note: optionally set the width and height of the generated image using `w` and `h` (GET).
 i.e. http://jhawins.tk/colors.php?ipsum&w=400&h=100
-
+![color-ipsum](http://jhawins.tk/colors.php?ipsum&w=400&h=100#.png)
 
 ##Other usage
 This script generates a [color swatch][1]|[gradient swatch][2] in `gif` format.
